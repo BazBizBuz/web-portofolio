@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Bastian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0f0510', /* Latar belakang sangat gelap dengan sedikit rona merah/ungu */
+                        'dark-card': '#1a0b1c', /* Latar belakang kartu sedikit lebih terang */
+                        'neon-purple-1': '#e6007e', /* Magenta terang ala Kafka */
+                        'neon-purple-2': '#8b005d', /* Merah keunguan/crimson gelap */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-purple-1': '0 0 10px #e6007e, 0 0 20px #e6007e',
+                        'neon-purple-2': '0 0 10px #8b005d, 0 0 20px #8b005d',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f0510;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Neon Text Effects */
+        .text-glow-purple-1 {
+            text-shadow: 0 0 10px #e6007e, 0 0 20px #e6007e;
+        }
+        .text-glow-purple-2 {
+            text-shadow: 0 0 10px #8b005d, 0 0 20px #8b005d;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #e6007e, #8b005d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #e6007e, #8b005d);
+            border-radius: 4px;
+        }
+
+        /* Glitch Effect on Hover */
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #e6007e;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        
+        /* Grid Background Pattern */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+
+        /* Efek Scroll Reveal */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* EFEK UNDERLINE MENYALA UNTUK HEADER/JUDUL */
+        .glowing-underline {
+            position: relative;
+            padding-bottom: 12px;
+            display: inline-flex;
+            justify-content: center;
+        }
+        .glowing-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%; 
+            width: 80%; /* Lebar garis 80% dari teks agar estetik */
+            height: 4px;
+            background: #e6007e;
+            box-shadow: 0 0 10px #e6007e, 0 0 20px #e6007e, 0 0 30px #8b005d;
+            border-radius: 4px;
+        }
+
+        /* Efek Active untuk Menu Navigasi */
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        /* Garis bawah default (disembunyikan lebarnya 0) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #e6007e;
+            box-shadow: 0 0 10px #e6007e, 0 0 20px #e6007e;
+            transition: width 0.3s ease;
+        }
+        
+        /* Muncul saat dihover atau sedang aktif */
+        .nav-link:hover::after,
+        .nav-link.active-nav::after {
+            width: 100%;
+        }
+        
+        /* Teks menyala saat aktif */
+        .nav-link.active-nav {
+            color: #e6007e !important;
+            text-shadow: 0 0 10px #e6007e, 0 0 20px #e6007e;
+        }
+    </style>
+</head>
+<body class="bg-grid antialiased selection:bg-neon-purple-2 selection:text-white relative">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-dark-bg/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="font-display font-bold text-2xl tracking-tighter">
+                        <span class="text-white">BazBiz</span><span class="text-neon-purple-2 text-glow-purple-2">Buz</span>
+                    </a>
+                </div>
+               <!-- Desktop Menu -->
+<div class="hidden md:flex space-x-8">
+    <a href="#home" class="nav-link text-gray-300 hover:text-neon-purple-1 transition-colors text-sm font-medium uppercase tracking-wider relative z-10 cursor-pointer">Home</a>
+    <a href="#about" class="nav-link text-gray-300 hover:text-neon-purple-2 transition-colors text-sm font-medium uppercase tracking-wider relative z-10 cursor-pointer">About</a>
+    <a href="#portfolio" class="nav-link text-gray-300 hover:text-neon-purple-1 transition-colors text-sm font-medium uppercase tracking-wider relative z-10 cursor-pointer">Karya</a>
+    <a href="#skills" class="nav-link text-gray-300 hover:text-neon-purple-2 transition-colors text-sm font-medium uppercase tracking-wider relative z-10 cursor-pointer">Skills</a>
+    <a href="#experience" class="nav-link text-gray-300 hover:text-neon-purple-1 transition-colors text-sm font-medium uppercase tracking-wider relative z-10 cursor-pointer">Pengalaman</a>
+</div>
+                <div class="hidden md:flex">
+                    <a href="#contact" class="px-5 py-2 border border-neon-purple-1 text-neon-purple-1 rounded-full hover:bg-neon-purple-1 hover:text-dark-bg transition-all shadow-[0_0_15px_rgba(230,0,126,0.3)] hover:shadow-neon-purple-1 font-bold text-sm">Hubungi Saya</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-neon-purple-1 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-card border-b border-white/10">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 text-base font-medium text-white hover:text-neon-purple-1">Home</a>
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-white hover:text-neon-purple-2">About</a>
+                <a href="#portfolio" class="block px-3 py-2 text-base font-medium text-white hover:text-neon-purple-1">Karya</a>
+                <a href="#skills" class="block px-3 py-2 text-base font-medium text-white hover:text-neon-purple-2">Skills</a>
+                <a href="#experience" class="block px-3 py-2 text-base font-medium text-white hover:text-neon-purple-1">Pengalaman</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-neon-purple-1">Hubungi Saya</a>
+            </div>
+        </div>
+    </nav>
+
+  <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden reveal-section">
+        <!-- Glowing Orbs Background -->
+        <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-neon-purple-1/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neon-purple-2/30 rounded-full blur-[120px] -z-10 animate-pulse" style="animation-delay: 1s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 relative w-full">
+            
+            <!-- PERUBAHAN UTAMA: Mengubah lg:flex-row menjadi md:flex-row -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-12 lg:gap-16 w-full">
+                
+                <!-- BAGIAN KIRI: Gambar -->
+                <div class="w-full md:w-5/12 flex justify-center md:justify-end">
+                    <img src="kafka pict.jpg" alt="Foto Profil" class="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 object-cover rounded-2xl shadow-[0_0_15px_#e6007e] border-2 border-neon-purple-1">
+                </div>
+
+                <!-- BAGIAN KANAN: Teks -->
+                <!-- Mengubah lg:text-left menjadi md:text-left dan lg:items-start menjadi md:items-start -->
+                <div class="w-full md:w-7/12 text-center md:text-left flex flex-col items-center md:items-start">
+                    <p class="text-neon-purple-1 font-mono mb-4 tracking-widest uppercase text-sm">> Hello World_</p>
+                    
+                    <h1 class="font-display text-5xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight">
+                        Saya <span class="text-white">Bastian</span>
+                    </h1>
+                    
+                    <h2 class="font-display text-xl md:text-xl lg:text-2xl font-bold mb-6 tracking-wide">
+                        <span class="bg-gradient-to-r from-neon-purple-1 to-neon-purple-2 bg-clip-text text-transparent">
+                            Siswa SMK Ananda Mitra Industri Deltamas
+                        </span>
+                    </h2>
+                    
+                    <p class="text-base md:text-lg text-gray-400 font-light leading-relaxed mb-8 max-w-lg lg:max-w-xl">
+                        Ya, memang benar itu nama saya. Kalau kalian bertanya kenapa gambarnya malah Kafka dari HSR? Jawabannya adalah karena saya sangat mencintai karakter tersebut. Saya adalah seorang siswa yang sedang menekuni dunia IT, khususnya dalam pembuatan konten visual dan pengembangan web sederhana.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#portfolio" class="px-8 py-3 bg-neon-purple-2 text-white font-bold rounded-full hover:bg-white hover:text-neon-purple-2 transition-all shadow-[0_0_20px_rgba(139,0,93,0.6)] hover:shadow-neon-purple-2">
+                            Lihat Proyek Saya
+                        </a>
+                        <a href="https://github.com/BazBizBuz" target="_blank" class="px-8 py-3 border border-white/20 text-white rounded-full hover:border-neon-purple-1 hover:text-neon-purple-1 transition-all flex items-center justify-center gap-2">
+                            <i class="fab fa-github"></i> GitHub Saya
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-dark-card/50 border-y border-white/5 relative reveal-section">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Efek glowing underline & pembungkus w-fit mx-auto agar garisnya pas -->
+            <div class="w-fit mx-auto mb-8">
+                <h2 class="font-display text-3xl md:text-4xl font-bold flex items-center justify-center gap-3 glowing-underline">
+                    <span class="text-neon-purple-2">01.</span> Tentang Saya
+                </h2>
+            </div>
+            
+            <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                Halo! Saya <span class="text-white font-bold">Bastian</span>, saat ini sedang duduk di bangku SMK Jurusan Teknik Komputer Jaringan dan Telekomunikasi (TKJT). Saya memiliki ketertarikan pada bagaimana teknologi web berinteraksi dengan pengguna.
+            </p>
+            <p class="text-gray-400 leading-relaxed mb-10">
+                Menurut saya, coding tidak hanya mengetik sintaks, melainkan menciptakan kanvas digital. Di luar jam sekolah, saya kadang bereksperimen dengan desain UI/UX bertema futuristik dan mencoba framework modern untuk membangun aplikasi yang tidak hanya fungsional, tapi juga memanjakan mata.
+            </p>
+            
+            <!-- Kotak Biodata -->
+            <div class="inline-block text-left bg-dark-bg border border-white/5 p-6 rounded-xl shadow-[0_0_15px_rgba(139,0,93,0.2)]">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 font-mono text-sm text-neon-purple-1">
+                    <li><i class="fas fa-caret-right mr-2 text-neon-purple-2"></i> Umur: 15 Tahun</li>
+                    <li><i class="fas fa-caret-right mr-2 text-neon-purple-2"></i> Domisili: Cikarang</li>
+                    <li><i class="fas fa-caret-right mr-2 text-neon-purple-2"></i> Status: Pelajar SMK</li>
+                    <li><i class="fas fa-caret-right mr-2 text-neon-purple-2"></i> Hobi: Main Game, Nonton Anime, Mengedit Video, dan Coding</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Karya Utama (Portfolio) Section -->
+    <section id="portfolio" class="py-24 relative reveal-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 w-fit mx-auto">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4 glowing-underline">
+                    <span class="text-neon-purple-1">02.</span> Ruang <span class="text-white ml-2">Karya</span>
+                </h2>
+                <p class="text-gray-400 font-mono text-sm uppercase tracking-widest mt-4">Karya Visual & Konten Digital</p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-dark-card border border-white/10 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden group hover:border-neon-purple-1 transition-all duration-500">
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-neon-purple-2/20 to-neon-purple-1/20 blur-[80px] -z-10 group-hover:from-neon-purple-2/40 group-hover:to-neon-purple-1/40 transition-all duration-500"></div>
+                
+                <i class="fab fa-tiktok text-6xl text-neon-purple-1 mb-6 drop-shadow-[0_0_15px_currentColor]"></i>
+                
+                <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Koleksi Video Kreatif</h3>
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    Saat ini saya memfokuskan kreativitas pada pembuatan konten visual dan video digital. Kunjungi profil TikTok saya untuk melihat karya-karya terbaru yang telah saya buat!
+                </p>
+                
+                <div class="flex justify-center">
+                    <a href="https://tiktok.com/@zikortzt" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-purple-2 to-neon-purple-1 text-white font-bold rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(0,0,0,0)] hover:shadow-neon-purple-1">
+                        <i class="fab fa-tiktok text-xl"></i> Tonton di TikTok
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills & Services Section -->
+    <section id="skills" class="py-20 bg-dark-card/50 border-y border-white/5 relative reveal-section">
+        <div class="absolute right-0 top-0 w-64 h-64 bg-neon-purple-1/5 rounded-full blur-[80px] -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-fit mx-auto mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-center glowing-underline">
+                    <span class="text-neon-purple-2">03.</span> Tech Stack & <span class="text-white ml-2">Layanan</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Skills / Tech Stack -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">Senjata Digital</h3>
+                    <div class="space-y-6">
+                        <!-- Skill 1 -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-mono text-sm text-gray-300">HTML & CSS</span>
+                                <span class="font-mono text-sm text-neon-purple-1">50%</span>
+                            </div>
+                            <div class="w-full bg-dark-bg rounded-full h-2 border border-white/10 overflow-hidden">
+                                <div class="bg-neon-purple-1 h-2 rounded-full shadow-[0_0_10px_#e6007e]" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill 2 -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-mono text-sm text-gray-300">CapCut (Video Editing)</span>
+                                <span class="font-mono text-sm text-neon-purple-2">90%</span>
+                            </div>
+                            <div class="w-full bg-dark-bg rounded-full h-2 border border-white/10 overflow-hidden">
+                                <div class="bg-neon-purple-2 h-2 rounded-full shadow-[0_0_10px_#8b005d]" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill 3 -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="font-mono text-sm text-gray-300">Canva (Desain Grafis)</span>
+                                <span class="font-mono text-sm text-neon-purple-1">75%</span>
+                            </div>
+                            <div class="w-full bg-dark-bg rounded-full h-2 border border-white/10 overflow-hidden">
+                                <div class="bg-neon-purple-1 h-2 rounded-full shadow-[0_0_10px_#e6007e]" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-6 border-b border-white/10 pb-2">Apa yang bisa saya buat?</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-dark-bg p-5 rounded-lg border border-white/5 hover:border-neon-purple-1/50 transition-colors">
+                            <i class="fas fa-laptop-code text-3xl text-neon-purple-1 mb-3"></i>
+                            <h4 class="text-white font-bold mb-2">Web Sederhana</h4>
+                            <p class="text-sm text-gray-400">Pembuatan landing page atau web profil menggunakan HTML & CSS.</p>
+                        </div>
+                        <div class="bg-dark-bg p-5 rounded-lg border border-white/5 hover:border-neon-purple-2/50 transition-colors">
+                            <i class="fas fa-video text-3xl text-neon-purple-2 mb-3"></i>
+                            <h4 class="text-white font-bold mb-2">Video Konten</h4>
+                            <p class="text-sm text-gray-400">Pengeditan video pendek yang menarik dengan transisi dan efek untuk TikTok atau Instagram.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pengalaman / Timeline Section -->
+    <section id="experience" class="py-24 relative reveal-section">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-fit mx-auto mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-center glowing-underline">
+                    <span class="text-neon-purple-1">04.</span> Jejak <span class="text-white ml-2">Langkah</span>
+                </h2>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative border-l-2 border-white/10 ml-3 md:ml-6 space-y-12">
+                
+                <!-- Item 1 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-dark-bg border-2 border-neon-purple-2 rounded-full shadow-[0_0_10px_#581c87]"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h3 class="text-xl font-bold text-white">Anggota Ekstrakurikuler P&C </h3>
+                        <span class="font-mono text-neon-purple-2 text-sm">2026 - Sekarang</span>
+                    </div>
+                    <h4 class="text-gray-400 font-medium mb-3">SMK Ananda Mitra Indusri Deltamas</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">Menjadi anggota belajar tentang dasar-dasar web developmen.</p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-dark-bg border-2 border-neon-purple-1 rounded-full shadow-[0_0_10px_#e6007e]"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h3 class="text-xl font-bold text-white">Peserta Lomba Web Design Tingkat Provinsi</h3>
+                        <span class="font-mono text-neon-purple-1 text-sm">Agustus 2026</span>
+                    </div>
+                    <h4 class="text-gray-400 font-medium mb-3">Dinas Pendidikan Provinsi</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">Mewakili sekolah dalam kompetisi desain web. Berhasil masuk dalam peringkat 20 besar dengan merancang website merumuskan masalah sehari-hari.</p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative pl-8 md:pl-12">
+                    <div class="absolute -left-[9px] top-1 w-4 h-4 bg-dark-bg border-2 border-gray-500 rounded-full"></div>
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                        <h3 class="text-xl font-bold text-gray-300">Masuk Jurusan Teknik Komputer Jaringan dan Telekomunikasi</h3>
+                        <span class="font-mono text-gray-500 text-sm">Juli 2026</span>
+                    </div>
+                    <h4 class="text-gray-500 font-medium mb-3">SMK Ananda Mitra Industri Deltamas</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed">Langkah awal mengenal dunia pemrograman. Mulai belajar algoritma dasar, HTML, CSS, dan merakit komputer.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-dark-card/80 border-t border-white/5 text-center relative overflow-hidden reveal-section">
+        <!-- Glow effect behind form -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-neon-purple-1/10 to-neon-purple-2/10 rounded-full blur-[100px] -z-10"></div>
+
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-fit mx-auto mb-6">
+                <h2 class="font-display text-4xl md:text-5xl font-bold glowing-underline">
+                    <span class="text-white">My</span> <span class="text-gradient ml-2">Social Media</span>
+                </h2>
+            </div>
+            
+            <p class="text-gray-400 mb-10 text-lg mt-8">
+                Silahkan kalau mau mampir ke akun sosmed saya, bila berkenan di ramein juga. Bisa request juga kalau mau, bila ada waktu luang akan saya kerjakan semaksimal mungkin. Terima kasih sudah mampir ke portofolio saya
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mt-8">
+                <!-- Instagram Button -->
+                <a href="https://www.instagram.com/zikort_again/" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-neon-purple-1 text-neon-purple-1 font-bold rounded-lg hover:bg-neon-purple-1 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(230,0,126,0.2)] hover:shadow-[0_0_30px_rgba(230,0,126,0.6)] text-lg group">
+                    <i class="fab fa-instagram text-2xl group-hover:scale-110 transition-transform"></i> Instagram
+                </a>
+                
+                <!-- TikTok Button -->
+                <a href="https://tiktok.com/@zikortzt" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-dark-bg transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] text-lg group">
+                    <i class="fab fa-tiktok text-2xl group-hover:scale-110 transition-transform"></i> TikTok
+                </a>
+                
+                <!-- Facebook Button -->
+                <a href="https://www.facebook.com/profile.php?id=100035782961182" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-neon-purple-2 text-neon-purple-2 font-bold rounded-lg hover:bg-neon-purple-2 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(139,0,93,0.2)] hover:shadow-[0_0_30px_rgba(139,0,93,0.6)] text-lg group">
+                    <i class="fab fa-facebook-f text-2xl group-hover:scale-110 transition-transform"></i> Facebook
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-bg py-8 border-t border-white/10 text-center">
+        <p class="text-gray-500 font-mono text-sm">
+            &copy; BazBizBuz Was Here <span class="text-neon-purple-2 animate-pulse"></span>
+        </p>
+        <p class="text-gray-600 text-xs mt-2 uppercase tracking-widest">System Offline_</p>
+    </footer>
+
+    <!-- Script Utama (dipindahkan ke bawah agar halaman memuat lebih cepat) -->
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileLinks = document.querySelectorAll('#mobile-menu a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Trigger Animasi Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal-section');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+        // ScrollSpy Navigation (Mendeteksi posisi scroll untuk menu aktif)
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                // Deteksi jika scroll sudah mencapai sepertiga bagian atas section tersebut
+                if (scrollY >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active-nav');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active-nav');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
